@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "athbi",
+    "password": null,
+    "database": "test_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false,
+    "dialectOptions": {
+      "useUTC": false
+    },
+    "timezone": "+03:00"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}

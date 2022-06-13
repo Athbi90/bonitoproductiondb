@@ -100,7 +100,7 @@ const run = async () => {
     // await umzug.down({ to: 0 });
     console.log("Server Connected Successfully!");
 
-    app.listen(process.env.PORT, () => {
+    app.listen(8080, () => {
       console.log(`Running on ${ip.address()}:${process.env.PORT}`);
     });
   } catch (error) {
