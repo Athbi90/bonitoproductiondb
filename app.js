@@ -6,6 +6,7 @@ const passport = require("passport");
 const { Umzug, SequelizeStorage } = require("umzug");
 const Sequelize = require("sequelize");
 const fs = require("fs");
+const env = process.env.NODE_ENV;
 const config = require(__dirname + "/db/config/config.json")[env];
 
 const sequelize = new Sequelize(process.env[config.use_env_variable], {
