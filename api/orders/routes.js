@@ -29,7 +29,7 @@ router.get(
 
 router.post("/create", addOrder);
 
-router.get("/tappost", tapPost);
+router.post("/tappost", tapPost);
 
 router.put(
   "/updateQuantity",
