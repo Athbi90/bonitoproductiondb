@@ -296,6 +296,7 @@ exports.tapPost = async (req, res, next) => {
         req.body[key] = orderData[key];
       }
       req.body.chargeId = req.body.id;
+      req.body.id = null;
       console.log("REQ.BODY", req.body);
       await this.addOrder(req, res, next);
     } else {
