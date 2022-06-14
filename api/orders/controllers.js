@@ -293,7 +293,7 @@ exports.tapPost = async (req, res, next) => {
 
 exports.getOrderByChargeId = async (req, res, next) => {
   try {
-    const order = await Orders.findOne({
+    const order = await Order.findOne({
       where: {
         chargeId: req.query.chargeId,
       },
