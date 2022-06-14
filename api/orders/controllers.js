@@ -269,6 +269,7 @@ const tapInstance = axios.create({
 
 exports.tapPost = async (req, res, next) => {
   try {
+    console.log("Posting from Tap");
     const toBeHashedString = `x_id${req.body.id}x_amount${req.body.amount}x_currency${req.body.currency}x_gateway_reference${req.body.reference.gateway}x_payment_reference${req.body.reference.payment}x_status${req.body.status}x_created${req.body.transaction.created}`;
 
     const hash = CryptoJS.HmacSHA256(
