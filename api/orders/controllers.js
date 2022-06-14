@@ -21,6 +21,8 @@ exports.addOrder = async (req, res, next) => {
       next
     );
 
+    console.log("Price Calculated", price);
+
     let coupon = null;
     if (req.body.coupon) {
       coupon = await Coupon.findOne({
@@ -35,6 +37,7 @@ exports.addOrder = async (req, res, next) => {
       await coupon.update({ ...coupon, stock: coupon.stock - 1 });
     }
 
+    console.log("Done with coupons");
     const config = await AdminConfig.findByPk(1);
     const newOrder = await Order.create({
       ...req.body,
@@ -42,6 +45,7 @@ exports.addOrder = async (req, res, next) => {
       delivery: config.delivery,
     });
 
+    console.log("Order Create", newOrder);
     // Create cart of our items with orderId
     const cart = productsList.map((item) => ({
       ...item,
@@ -52,6 +56,7 @@ exports.addOrder = async (req, res, next) => {
 
     // Create OrderItems and deduct the quantity from options
     await OrderItem.bulkCreate(cart);
+    console.log("Order Items Added!");
     await productsList.forEach(async (product) => {
       let item = await Option.findByPk(product.id);
       await item.update({ ...item, stock: item.stock - product.quantity });
@@ -64,6 +69,8 @@ exports.addOrder = async (req, res, next) => {
     console.log(newOrder);
     res.status(201).json(newOrder);
   } catch (error) {
+    console.log(error);
+
     next(error);
   }
 };
@@ -269,9 +276,6 @@ const tapInstance = axios.create({
 
 exports.tapPost = async (req, res, next) => {
   try {
-    console.log("Posting from Tap");
-    console.log("BODY", req.body);
-
     const toBeHashedString = `x_id${
       req.body.id
     }x_amount${req.body.amount.toFixed(3)}x_currency${
@@ -285,8 +289,6 @@ exports.tapPost = async (req, res, next) => {
       process.env.SECRET_TAP_KEY
     ).toString(CryptoJS.enc.Hex);
 
-    console.log("Headers", req.headers);
-    console.log("HASH", hash);
     if (hash === req.headers.hashstring) {
       console.log("Secure!");
       const orderData = JSON.parse(req.body.metadata.products);
