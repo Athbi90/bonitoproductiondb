@@ -21,8 +21,6 @@ exports.addOrder = async (req, res, next) => {
       next
     );
 
-    console.log("Price Calculated", price);
-
     let coupon = null;
     if (req.body.coupon) {
       coupon = await Coupon.findOne({
@@ -37,7 +35,6 @@ exports.addOrder = async (req, res, next) => {
       await coupon.update({ ...coupon, stock: coupon.stock - 1 });
     }
 
-    console.log("Done with coupons");
     const config = await AdminConfig.findByPk(1);
     const newOrder = await Order.create({
       ...req.body,
@@ -45,7 +42,6 @@ exports.addOrder = async (req, res, next) => {
       delivery: config.delivery,
     });
 
-    console.log("Order Create", newOrder);
     // Create cart of our items with orderId
     const cart = productsList.map((item) => ({
       ...item,
@@ -56,7 +52,6 @@ exports.addOrder = async (req, res, next) => {
 
     // Create OrderItems and deduct the quantity from options
     await OrderItem.bulkCreate(cart);
-    console.log("Order Items Added!");
     await productsList.forEach(async (product) => {
       let item = await Option.findByPk(product.id);
       await item.update({ ...item, stock: item.stock - product.quantity });
@@ -66,11 +61,8 @@ exports.addOrder = async (req, res, next) => {
         unitSold: prod.unitSold + product.quantity,
       });
     });
-    console.log(newOrder);
     res.status(201).json(newOrder);
   } catch (error) {
-    console.log(error);
-
     next(error);
   }
 };
@@ -296,8 +288,8 @@ exports.tapPost = async (req, res, next) => {
         req.body[key] = orderData[key];
       }
       req.body.chargeId = req.body.id;
+      req.body.status = orderData.status;
       req.body.id = null;
-      console.log("REQ.BODY", req.body);
       await this.addOrder(req, res, next);
     } else {
       console.log("Insecure");
