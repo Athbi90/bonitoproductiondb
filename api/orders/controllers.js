@@ -281,10 +281,24 @@ exports.tapPost = async (req, res, next) => {
       for (const key in orderData) {
         req.body[key] = orderData[key];
       }
-      req.body.chargeId = charge.data.id;
+      req.body.chargeId = req.body.id;
+      await this.addOrder(req, res, next);
     } else {
       res.status(400).json("Insecure");
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getOrderByChargeId = async (req, res, next) => {
+  try {
+    const order = await Orders.findOne({
+      where: {
+        chargeId: req.query.chargeId,
+      },
+    });
+    res.json(order);
   } catch (error) {
     next(error);
   }

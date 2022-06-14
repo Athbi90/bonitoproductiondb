@@ -14,6 +14,7 @@ const {
   tapPost,
   fetchOrder,
   getCharge,
+  getOrderByChargeId,
 } = require("./controllers");
 
 router.get("/", getOrders);
@@ -24,7 +25,7 @@ router.get(
   fetchOrder
 );
 
-router.get("/price", getPrice);
+// router.get("/price", getPrice);
 
 router.post("/create", addOrder);
 
@@ -55,5 +56,7 @@ router.delete(
 );
 
 router.get("/checkcharge", getCharge);
+
+router.get("/getOrderbyCharge", getOrderByChargeId);
 
 module.exports = router;
