@@ -281,7 +281,7 @@ exports.tapPost = async (req, res, next) => {
       process.env.SECRET_TAP_KEY
     ).toString(CryptoJS.enc.Hex);
 
-    if (hash === req.headers.hashstring) {
+    if (hash === req.headers.hashstring && req.body.status === "CAPTURED") {
       console.log("Secure!");
       const orderData = JSON.parse(req.body.metadata.products);
       for (const key in orderData) {
