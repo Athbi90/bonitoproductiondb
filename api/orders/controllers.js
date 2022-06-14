@@ -61,7 +61,7 @@ exports.addOrder = async (req, res, next) => {
         unitSold: prod.unitSold + product.quantity,
       });
     });
-
+    console.log(newOrder);
     res.status(201).json(newOrder);
   } catch (error) {
     next(error);
@@ -277,13 +277,16 @@ exports.tapPost = async (req, res, next) => {
     ).toString(CryptoJS.enc.Hex);
 
     if (hash === req.headers.hashstring) {
+      console.log("Secure!");
       const orderData = JSON.parse(req.body.metadata.products);
       for (const key in orderData) {
         req.body[key] = orderData[key];
       }
       req.body.chargeId = req.body.id;
+      console.log("REQ.BODY", req.body);
       await this.addOrder(req, res, next);
     } else {
+      console.log("Insecure");
       res.status(400).json("Insecure");
     }
   } catch (error) {
