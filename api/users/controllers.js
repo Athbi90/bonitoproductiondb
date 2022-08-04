@@ -193,7 +193,7 @@ exports.allcategories = async (req, res, next) => {
           attributes: { exclude: ["createdAt", "updatedAt"] },
         },
       ],
-      order: [["id", "ASC"]],
+      order: [["order", "ASC"]],
     });
     res.json(categories);
   } catch (error) {
