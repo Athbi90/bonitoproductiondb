@@ -10,6 +10,7 @@ const {
   deleteOption,
   listOptions,
   findOption,
+  discount,
 } = require("./controllers");
 
 // Params middleware
@@ -56,6 +57,13 @@ router.get(
   "/findone",
   passport.authenticate("jwt", { session: false }),
   findOption
+);
+
+// Add discount
+router.put(
+  "/discount",
+  passport.authenticate("jwt", { session: false }),
+  discount
 );
 
 module.exports = router;
