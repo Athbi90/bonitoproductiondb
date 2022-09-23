@@ -88,7 +88,10 @@ exports.findOption = async (req, res, next) => {
 
 exports.discount = async (req, res, next) => {
   try {
-    const discount = req.body.discount / 100;
+    if (+req.body.discount > 100 || +req.body.discount < 0) {
+      req.body.discount = 0;
+    }
+    const discount = +req.body.discount / 100;
     await req.body.options.forEach(async (item) => {
       let option = await Option.findByPk(item.optionId);
       await option.update({

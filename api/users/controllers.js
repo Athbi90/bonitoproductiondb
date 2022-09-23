@@ -209,6 +209,10 @@ exports.getAllProducts = async (req, res, next) => {
         as: "options",
         attributes: { exclude: ["createdAt", "updatedAt", "productId"] },
       },
+      order: [
+        ["categoryId", "ASC"],
+        ["id", "DESC"],
+      ],
     });
     res.json(products);
   } catch (err) {
