@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       quantity: DataTypes.INTEGER,
       extraCharge: DataTypes.DECIMAL,
       comment: DataTypes.STRING,
-      price: DataTypes.INTEGER,
+      price: DataTypes.DECIMAL,
     },
     {
       sequelize,
