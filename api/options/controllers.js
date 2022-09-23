@@ -92,11 +92,13 @@ exports.discount = async (req, res, next) => {
       req.body.discount = 0;
     }
     const discount = +req.body.discount / 100;
+    console.log("DISCOUNT", discount);
     await req.body.options.forEach(async (item) => {
       let option = await Option.findByPk(item.optionId);
       await option.update({
         discountPrice: option.price * discount,
       });
+      console.log("item updated", item);
     });
     res.json({ message: "Discount is placed!" });
   } catch (error) {
