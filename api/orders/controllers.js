@@ -268,6 +268,7 @@ const tapInstance = axios.create({
 
 exports.tapPost = async (req, res, next) => {
   try {
+    console.log("Request Body: ", req.body);
     const toBeHashedString = `x_id${
       req.body.id
     }x_amount${req.body.amount.toFixed(3)}x_currency${
