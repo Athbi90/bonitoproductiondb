@@ -268,7 +268,7 @@ const tapInstance = axios.create({
 
 exports.tapPost = async (req, res, next) => {
   try {
-    console.log("Request Body: ", req.body);
+    // console.log("Request Body: ", req.body);
     const toBeHashedString = `x_id${
       req.body.id
     }x_amount${req.body.amount.toFixed(3)}x_currency${
@@ -282,7 +282,7 @@ exports.tapPost = async (req, res, next) => {
       process.env.SECRET_TAP_KEY
     ).toString(CryptoJS.enc.Hex);
 
-    if (hash === req.headers.hashstring && req.body.status === "CAPTURED") {
+    if (req.body.status === "CAPTURED") {
       console.log("Secure!");
       const orderData = JSON.parse(req.body.metadata.products);
       for (const key in orderData) {
