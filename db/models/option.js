@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
           name: "productId",
         },
       });
+
+      Option.hasMany(models.Multioption, {
+        as: "multioption",
+        foreignKey: {
+          name: "optionId",
+        },
+      });
     }
   }
   Option.init(

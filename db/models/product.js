@@ -23,6 +23,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         // onDelete: "CASCADE",
       });
+      Product.hasMany(models.Group, {
+        as: "groups",
+        foreignKey: {
+          name: "productId",
+        },
+      });
     }
   }
   Product.init(
@@ -35,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       description_ar: DataTypes.STRING,
       unitSold: DataTypes.INTEGER,
       available: DataTypes.BOOLEAN,
+      multipleOptions: DataTypes.BOOLEAN,
     },
     {
       sequelize,

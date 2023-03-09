@@ -1,5 +1,5 @@
 // Model
-const { Product, Option } = require("../../db/models");
+const { Product, Option, Multioption, Group } = require("../../db/models");
 
 // Add Product
 exports.addProduct = async (req, res, next) => {
@@ -54,17 +54,31 @@ exports.listProducts = async (req, res, next) => {
       where: {
         available: true,
       },
-      include: {
-        model: Option,
-        as: "options",
-        attributes: { exclude: ["createdAt", "updatedAt", "productId"] },
-        where: {
-          available: true,
+      include: [
+        {
+          model: Option,
+          as: "options",
+          attributes: { exclude: ["createdAt", "updatedAt", "productId"] },
+          where: {
+            available: true,
+          },
+
+          include: {
+            model: Multioption,
+            as: "multioption",
+          },
+          order: [[{ model: Multioption, as: "multioption" }, "id", "DESC"]],
         },
-      },
+        {
+          model: Group,
+          as: "groups",
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+        },
+      ],
       order: [
         ["id", "DESC"],
-        [{ model: Option, as: "options" }, "price", "ASC"],
+        [{ model: Option, as: "options" }, "createdAt", "ASC"],
+        [{ model: Group, as: "groups" }, "createdAt", "DESC"],
       ],
     });
     res.json(products);

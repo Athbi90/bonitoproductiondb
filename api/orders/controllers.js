@@ -86,6 +86,7 @@ exports.getPrice = async (products, res, next) => {
           },
         })),
         quantity: product.quantity,
+        comment: product.comment,
       }))
     );
 

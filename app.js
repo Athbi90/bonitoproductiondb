@@ -48,6 +48,7 @@ const orderRoutes = require("./api/orders/routes");
 const couponRoutes = require("./api/coupons/routes");
 const categoryRoutes = require("./api/categories/routes");
 const configRoutes = require("./api/config/routes");
+const multioptionRoutes = require("./api/multioptions/routes");
 
 // Passport strategies
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
@@ -73,6 +74,7 @@ app.use("/products", productRoutes);
 app.use("/options", optionRoutes);
 app.use("/orders", orderRoutes);
 app.use("/coupons", couponRoutes);
+app.use("/multioptions", multioptionRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/config", configRoutes);
 
