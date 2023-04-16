@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   AdminConfig.init(
     {
-      delivery: DataTypes.INTEGER,
+      delivery: DataTypes.DECIMAL,
       cashPayment: DataTypes.BOOLEAN,
       knetPayment: DataTypes.BOOLEAN,
     },
