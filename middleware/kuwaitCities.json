@@ -78,6 +78,10 @@
   { "english_name": "Dasman", "arabic_name": "دسمان" },
   { "english_name": "Sa'ad Al Abdullah", "arabic_name": "سعد العبدالله" },
   { "english_name": "Salwa", "arabic_name": "سلوى" },
+  {
+    "english_name": "North West Sulaibikhat",
+    "arabic_name": "شمال غرب الصليبيخات"
+  },
   { "english_name": "Sabah Al Salem", "arabic_name": "صباح السالم" },
   { "english_name": "Sabah Al Nasser", "arabic_name": "صباح الناصر" },
   { "english_name": "Subhan", "arabic_name": "صبحان" },
