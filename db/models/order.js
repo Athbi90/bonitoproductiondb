@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       extra: DataTypes.STRING,
       comment: DataTypes.STRING,
       chargeId: DataTypes.STRING,
+      country: DataTypes.STRING,
+      city: DataTypes.STRING,
+      addressOne: DataTypes.STRING,
+      addressTwo: DataTypes.STRING,
     },
     {
       sequelize,

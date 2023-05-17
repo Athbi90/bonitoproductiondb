@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.DECIMAL,
       minimum: DataTypes.INTEGER,
       discountPrice: DataTypes.DECIMAL,
+      weight: DataTypes.DECIMAL,
       available: DataTypes.BOOLEAN,
       image: DataTypes.STRING,
       stock: DataTypes.INTEGER,

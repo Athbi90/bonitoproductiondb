@@ -1,4 +1,4 @@
-const { Delivery } = require("../../db/models");
+const { Delivery, Option } = require("../../db/models");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
@@ -51,10 +51,27 @@ exports.getDeliveries = async (req, res, next) => {
 // Find one delivery
 exports.findDelivery = async (req, res, next) => {
   try {
+    let totalWeight = 0;
+    const productsList = await Promise.all(
+      req.query.products.map(async (product) => ({
+        ...(await Option.findByPk(product.id, {
+          raw: true,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        })),
+        quantity: product.quantity,
+      }))
+    );
+
+    productsList.forEach((item) => {
+      totalWeight = totalWeight + item.weight * item.quantity;
+    });
+
     const delivery = await Delivery.findAll({
       where: {
         weight: {
-          [Op.gte]: req.query.totalWeight,
+          [Op.gte]: totalWeight.toFixed(3),
         },
       },
       attributes: {
