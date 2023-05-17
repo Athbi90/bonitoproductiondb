@@ -52,8 +52,10 @@ exports.getDeliveries = async (req, res, next) => {
 exports.findDelivery = async (req, res, next) => {
   try {
     let totalWeight = 0;
+    const prod = [];
+    req.query.products.forEach((item) => prod.push(JSON.parse(item)));
     const productsList = await Promise.all(
-      req.query.products.map(async (product) => ({
+      prod.map(async (product) => ({
         ...(await Option.findByPk(product.id, {
           raw: true,
           attributes: {
