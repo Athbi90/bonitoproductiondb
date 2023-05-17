@@ -7,15 +7,19 @@ const {
   Coupon,
   Category,
   AdminConfig,
+  Delivery,
 } = require("../../db/models");
 
 const CryptoJS = require("crypto-js");
 const axios = require("axios");
 
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
 // Add Order
 exports.addOrder = async (req, res, next) => {
   try {
-    let [price, productsList] = await this.getPrice(
+    let [price, productsList, totalWeight] = await this.getPrice(
       req.body.products,
       res,
       next
@@ -36,10 +40,27 @@ exports.addOrder = async (req, res, next) => {
     }
 
     const config = await AdminConfig.findByPk(1);
+    let delivery = config.delivery;
+
+    if (req.body.country !== "Kuwait") {
+      const gccdelivery = await Delivery.findAll({
+        where: {
+          weight: {
+            [Op.gte]: +totalWeight,
+          },
+        },
+        attributes: {
+          exclude: ["id", "createdAt", "updatedAt"],
+        },
+        order: [["price", "ASC"]],
+      });
+      delivery = gccdelivery[0].price;
+    }
+
     const newOrder = await Order.create({
       ...req.body,
       price: price,
-      delivery: config.delivery,
+      delivery: delivery,
     });
 
     // Create cart of our items with orderId
@@ -71,6 +92,7 @@ exports.addOrder = async (req, res, next) => {
 exports.getPrice = async (products, res, next) => {
   try {
     let price = 0;
+    let totalWeight = 0;
 
     const productsList = await Promise.all(
       products.map(async (product) => ({
@@ -92,8 +114,9 @@ exports.getPrice = async (products, res, next) => {
 
     productsList.forEach((item) => {
       price = price + (+item.price - item.discountPrice) * item.quantity;
+      totalWeight = totalWeight + item.weight * item.quantity;
     });
-    return [price, productsList];
+    return [price, productsList, totalWeight];
   } catch (error) {
     next(error);
   }

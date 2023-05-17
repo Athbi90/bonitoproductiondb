@@ -49,6 +49,7 @@ const couponRoutes = require("./api/coupons/routes");
 const categoryRoutes = require("./api/categories/routes");
 const configRoutes = require("./api/config/routes");
 const multioptionRoutes = require("./api/multioptions/routes");
+const deliveryRoutes = require("./api/deliveries/routes");
 
 // Passport strategies
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
@@ -77,6 +78,7 @@ app.use("/coupons", couponRoutes);
 app.use("/multioptions", multioptionRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/config", configRoutes);
+app.use("/deliveries", deliveryRoutes);
 
 //Extract all areas
 let rawdata = fs.readFileSync(
